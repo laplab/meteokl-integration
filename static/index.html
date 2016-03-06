@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" type="text/css" href="css/normalize.css">
+		
+		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="css/weather-icons.min.css">
+		<link rel="stylesheet" type="text/css" href="css/weather-icons-wind.min.css">
+		
+		<link rel="stylesheet" type="text/css" href="css/nprogress.css">
+
+		<link rel="stylesheet" type="text/css" href="css/grid/col.css" media="all">
+		<link rel="stylesheet" type="text/css" href="css/grid/4cols.css" media="all">
+		<link rel="stylesheet" type="text/css" href="css/grid/3cols.css" media="all">
+
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+
+		<title>Погода</title>
+	</head>
+	<body>
+		<div class="block">
+			<div class="centered">
+				<div class="section group">
+					<div class="col span_1_of_4 weather_info"></div>
+					<div class="col span_1_of_4 weather_info">
+						<span id="inner_temperature"></span>
+						<i class="wi wi-celsius"></i>
+					</div>
+					<div class="col span_1_of_4 weather_info">
+						<span id="outer_temperature"></span>
+						<i class="wi wi-celsius"></i>
+					</div>
+					<div class="col span_1_of_4 weather_info"></div>
+				</div>
+
+				<div class="section group">
+					<div class="col span_1_of_3 weather_info">
+						<span id="pressure"></span>
+						<i class="wi wi-thermometer-internal"></i>
+					</div>
+					<div class="col span_1_of_3 weather_info">
+						<span id="humidity"></span>
+						<i class="wi wi-humidity"></i>
+					</div>
+					<div class="col span_1_of_3 weather_info">
+						<span id="wind_speed"></span>
+						<span class="sub_info">м/с</span>
+						<i class="wi wi-wind wi-from-sw"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="js/ajax.min.js"></script>
+		<script type="text/javascript" src="js/nprogress.js"></script>
+		<script type="text/javascript">
+			var updatePeriod = 5 * 60 * 1000;
+			var errorWaitPeriod = 30 * 1000;
+			var ajax = new Ajax();
+
+			function setContent(id, value){
+				document.getElementById(id).innerHTML = value;
+			}
+
+			function updateView(){
+				NProgress.start();
+
+				ajax.get('/api/weather')
+				.done(function(response, xhr){
+					try {
+						var data = JSON.parse(xhr.response);
+						
+						setContent('inner_temperature', data[0]);
+						setContent('outer_temperature', data[1]);
+						setContent('pressure', data[2]);
+						setContent('humidity', data[3]);
+						setContent('wind_speed', data[4]);
+
+						setTimeout(updateView, updatePeriod);
+					} catch (e) {
+						setTimeout(updateView, errorWaitPeriod);
+					}
+				})
+				.error(function(response, xhr){
+					setTimeout(updateView, errorWaitPeriod);
+				})
+				.always(function(response, xhr){
+					NProgress.done();
+				});
+			}
+
+			document.addEventListener("DOMContentLoaded", function(event) { 
+				updateView();
+			});
+		</script>
+	</body>
+</html>

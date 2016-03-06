@@ -1,0 +1,31 @@
+html, body {
+	height: 100%;
+	color: #666666;
+	background: #FAFAFA;
+}
+
+.block {
+  text-align: center;
+  height: 100%;
+}
+ 
+.block:before {
+  content: '\200B';
+  display: inline-block;
+  height: 100%; 
+  vertical-align: middle;
+ }
+ 
+.centered {
+  display: inline-block;
+  vertical-align: middle;
+  width: 90%;
+ }
+
+ .weather_info {
+ 	font-size: 600%;
+ }
+
+.sub_info {
+	font-size: 50%;
+}
