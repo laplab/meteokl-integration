@@ -16,4 +16,4 @@ workerCOMport = '\\\\.\\COM3'
 workerReadTimeout = 17
 
 # Time in seconds worker will wait until reading data next time
-wokerPeriod = 5 * 60
+workerPeriod = 5 * 60

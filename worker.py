@@ -66,4 +66,4 @@ while True:
             wind_direction=match[5]
         )
 
-        time.sleep(config.wokerPeriod)
+        time.sleep(config.workerPeriod)
