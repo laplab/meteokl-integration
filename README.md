@@ -1,4 +1,4 @@
-##MeteoKL integration
+## MeteoKL integration
 Integration with [weather station](http://www.computerlink.ru/node/39) that consists of two components:
 
  1. **worker.py** that collects data from weather station and writes it to the sqlite database *weather.db* periodically
@@ -23,5 +23,4 @@ To start server on **localhost** at port you have specified in **config.py**
 python worker.py
 ```
 To start collecting data from weather station  
-**Note:** Worker should be started **after** server. If you have started worker before server, restart it.  
 **Note:** If page is not displaying numbers just wait for some time - this means that worker haven't recorded any data to database yet
